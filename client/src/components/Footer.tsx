@@ -44,8 +44,8 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <Mail className="w-4 h-4 mt-0.5 text-muted-foreground" />
-                <a href="mailto:info@royalgamuf.com" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-email">
-                  info@royalgamuf.com
+                <a href="mailto:okeowoabdsalam@gmail.com" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-email">
+                  okeowoabdsalam@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
