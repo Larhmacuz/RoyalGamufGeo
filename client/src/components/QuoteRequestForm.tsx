@@ -148,7 +148,7 @@ export default function QuoteRequestForm() {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input placeholder="+234 XXX XXX XXXX" {...field} data-testid="input-phone" />
+                    <Input placeholder="+234 811 237 0243" {...field} data-testid="input-phone" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

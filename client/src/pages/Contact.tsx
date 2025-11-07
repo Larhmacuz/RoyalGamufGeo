@@ -53,11 +53,11 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Phone</h3>
                     <a 
-                      href="tel:+234" 
+                      href="tel:+2348112370243" 
                       className="text-muted-foreground hover:text-foreground"
                       data-testid="link-contact-phone"
                     >
-                      +234 XXX XXX XXXX
+                      +234 811 237 0243
                     </a>
                   </div>
                 </div>

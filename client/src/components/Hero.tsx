@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import heroImage from "@assets/generated_images/Geologists_conducting_field_work_49ae6f2c.png";
+import heroImage from "@assets/borehole-construction-company-in-ajah-lekki-vi-ikeja-lagos-1200x675_1762507342174.jpg";
 
 export default function Hero() {
   return (
