@@ -30,10 +30,10 @@ export default function About() {
           <section>
             <h2 className="text-3xl font-bold mb-6">Our Expertise</h2>
             <p className="text-lg text-muted-foreground mb-6" data-testid="text-company-story">
-              Royal Gamuf Nig LTD is a professional geological services company dedicated to providing comprehensive geological solutions across Nigeria. Our team of experienced geologists brings deep expertise in field investigation, mineral exploration, environmental assessment, hydrology, engineering geology, and professional consultation.
+              Royal Gamuf Nig LTD is a professional geological and engineering services company dedicated to providing comprehensive solutions across Nigeria. Our team brings deep expertise in field investigation, mineral exploration, environmental assessment, hydrology, engineering geology, and professional consultation.
             </p>
             <p className="text-lg text-muted-foreground" data-testid="text-company-mission">
-              We combine modern methodologies with proven field techniques to deliver accurate, reliable results that drive successful project outcomes. Whether you're planning a construction project, exploring mineral resources, or need environmental assessment, we provide the geological expertise you need.
+              In addition to our core geological expertise, Royal Gamuf Nig LTD has expanded into full-scale engineering and construction services. We specialize in building design, civil works, structural engineering, solar system installation, and complete project management — providing clients with end-to-end solutions that combine scientific precision with construction excellence, delivering dependable results from the ground beneath to the structures above.
             </p>
           </section>
 

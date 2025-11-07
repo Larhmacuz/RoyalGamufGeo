@@ -1,5 +1,5 @@
 import ServiceCard from "./ServiceCard";
-import { Compass, Gem, Leaf, Droplets, HardHat, MessageSquare } from "lucide-react";
+import { Compass, Gem, Leaf, Droplets, HardHat, MessageSquare, Building2, Hammer, Sun } from "lucide-react";
 
 const services = [
   {
@@ -33,9 +33,27 @@ const services = [
     slug: "engineering-geology"
   },
   {
+    icon: Building2,
+    title: "Building Design & Civil Works",
+    description: "Architectural design, civil engineering, and construction services for residential and commercial projects.",
+    slug: "building-civil"
+  },
+  {
+    icon: Hammer,
+    title: "Structural Engineering",
+    description: "Structural design, analysis, and engineering solutions ensuring safe, durable construction outcomes.",
+    slug: "structural-engineering"
+  },
+  {
+    icon: Sun,
+    title: "Solar System Installation",
+    description: "Professional solar energy system design, installation, and maintenance for sustainable power solutions.",
+    slug: "solar-installation"
+  },
+  {
     icon: MessageSquare,
-    title: "Geology Consultation",
-    description: "Expert geological advice, project feasibility studies, and technical consultation for diverse projects.",
+    title: "Project Management & Consultation",
+    description: "Complete project oversight, technical consultation, and expert guidance from planning to completion.",
     slug: "consultation"
   }
 ];

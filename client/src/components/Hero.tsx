@@ -16,7 +16,7 @@ export default function Hero() {
           Professional Geological Services & Expertise
         </h1>
         <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto" data-testid="text-hero-subtitle">
-          Comprehensive geological solutions for mineral exploration, environmental assessment, and engineering projects across Nigeria
+          From geological expertise to complete engineering and construction solutions — combining scientific precision with construction excellence across Nigeria
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link href="/services" data-testid="link-services-cta">
