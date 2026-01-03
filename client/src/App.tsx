@@ -12,6 +12,7 @@ import Careers from "@/pages/Careers";
 import RequestQuote from "@/pages/RequestQuote";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 function Router() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
+        <WhatsAppButton />
       </TooltipProvider>
     </QueryClientProvider>
   );
