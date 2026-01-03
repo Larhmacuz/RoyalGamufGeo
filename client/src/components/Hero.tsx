@@ -5,48 +5,44 @@ import heroImage from "@assets/borehole-construction-company-in-ajah-lekki-vi-ik
 
 export default function Hero() {
   return (
-    <div className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${heroImage})` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/80" />
       
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12">
-        <div className="inline-block bg-green-600 text-white px-4 py-2 rounded-md text-sm font-semibold mb-6" data-testid="badge-cac">
-          CAC Registered Company
-        </div>
-        
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight" data-testid="text-hero-title">
-          Nigeria's Trusted Partner in<br />
-          <span className="text-green-400">Geological & Engineering Services</span>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight" data-testid="text-hero-title">
+          Geological & Estate Management<br />
+          <span className="text-green-400">Services You Can Trust</span>
         </h1>
         
-        <p className="text-lg md:text-xl text-white/90 mb-8 max-w-3xl mx-auto" data-testid="text-hero-subtitle">
-          From borehole drilling to building construction, mineral exploration to solar installation — we deliver quality projects across Nigeria with expertise you can trust.
+        <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed" data-testid="text-hero-subtitle">
+          We provide professional geological surveys, land verification, property buying & selling, and estate management services across Nigeria.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-          <Link href="/services" data-testid="link-services-cta">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
+          <Link href="/properties" data-testid="link-properties-cta">
             <Button size="lg" className="text-lg px-8 bg-green-600 hover:bg-green-700">
-              View Our Services
+              View Properties
             </Button>
           </Link>
-          <Link href="/request-quote" data-testid="link-quote-cta">
+          <Link href="/contact" data-testid="link-contact-cta">
             <Button 
               size="lg" 
               variant="outline" 
-              className="text-lg px-8 bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+              className="text-lg px-8 bg-white/10 backdrop-blur-sm border-white/40 text-white hover:bg-white/20"
             >
-              Get Free Quote
+              Contact Us
             </Button>
           </Link>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <a href="tel:+2348112370243" className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-md" data-testid="link-hero-phone">
+          <a href="tel:+2348112370243" className="flex items-center gap-2 text-white/90 hover:text-white" data-testid="link-hero-phone">
             <Phone className="w-5 h-5 text-green-400" />
-            <span className="text-white font-medium">+234 811 237 0243</span>
+            <span className="font-medium">+234 811 237 0243</span>
           </a>
           <a 
             href="https://wa.me/2348112370243" 
@@ -56,7 +52,7 @@ export default function Hero() {
             data-testid="link-hero-whatsapp"
           >
             <MessageCircle className="w-5 h-5 text-white" />
-            <span className="text-white font-medium">Chat on WhatsApp</span>
+            <span className="text-white font-medium">WhatsApp Us</span>
           </a>
         </div>
       </div>

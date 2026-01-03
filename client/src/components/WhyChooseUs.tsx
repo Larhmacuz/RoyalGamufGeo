@@ -1,49 +1,56 @@
-import { Shield, Clock, Award, Headphones, CheckCircle, FileCheck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { 
+  Shield, 
+  FileCheck, 
+  Mountain, 
+  Eye, 
+  Users, 
+  Award 
+} from "lucide-react";
 
 const reasons = [
   {
     icon: Shield,
-    title: "CAC Registered",
-    description: "Fully registered with the Corporate Affairs Commission of Nigeria"
-  },
-  {
-    icon: Award,
-    title: "Certified Professionals",
-    description: "Our team includes certified geologists and licensed engineers"
-  },
-  {
-    icon: Clock,
-    title: "Timely Delivery",
-    description: "We complete projects on schedule with no compromise on quality"
-  },
-  {
-    icon: Headphones,
-    title: "24/7 Support",
-    description: "Always available to answer your questions and provide updates"
+    title: "No Land Disputes",
+    description: "We verify all land titles and ownership history to protect you from disputes"
   },
   {
     icon: FileCheck,
     title: "Proper Documentation",
-    description: "All projects come with comprehensive reports and certificates"
+    description: "All properties come with complete and verified legal documents"
   },
   {
-    icon: CheckCircle,
-    title: "Quality Guaranteed",
-    description: "We stand behind our work with warranty and after-service support"
+    icon: Mountain,
+    title: "Professional Geological Assessment",
+    description: "Expert soil testing and site analysis before any transaction"
+  },
+  {
+    icon: Eye,
+    title: "Transparent Process",
+    description: "Clear communication and no hidden fees throughout every transaction"
+  },
+  {
+    icon: Users,
+    title: "Trusted by Nigerians",
+    description: "Years of successful projects and satisfied clients across the country"
+  },
+  {
+    icon: Award,
+    title: "CAC Registered",
+    description: "Fully registered and compliant with Nigerian corporate regulations"
   }
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section className="py-16 md:py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 bg-card">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-why-title">
-            Why Nigerians Trust Us
+          <h2 className="text-3xl font-bold mb-4" data-testid="text-why-title">
+            Why Choose Us
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-why-subtitle">
-            Royal Gamuf Nig LTD has built a reputation for excellence, integrity, and reliable service delivery across Nigeria
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            We prioritize your safety and satisfaction in every transaction
           </p>
         </div>
 
@@ -56,7 +63,7 @@ export default function WhyChooseUs() {
                     <reason.icon className="w-6 h-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-2">{reason.title}</h3>
+                    <h3 className="font-semibold text-lg mb-1">{reason.title}</h3>
                     <p className="text-muted-foreground text-sm">{reason.description}</p>
                   </div>
                 </div>

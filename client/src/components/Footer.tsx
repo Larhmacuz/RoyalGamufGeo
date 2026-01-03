@@ -1,12 +1,13 @@
 import { Link } from "wouter";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle, Twitter } from "lucide-react";
+import { SiFacebook, SiInstagram } from "react-icons/si";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-card border-t">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -16,32 +17,39 @@ export default function Footer() {
               <span className="font-semibold text-lg">Royal Gamuf</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4" data-testid="text-footer-tagline">
-              Professional geological and engineering services delivering expertise and reliability across Nigeria.
+              Professional geological services and estate management you can trust. CAC registered company serving clients across Nigeria.
             </p>
-            <p className="text-xs text-muted-foreground" data-testid="text-footer-cac">
-              CAC Registered Company
-            </p>
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-facebook">
+                <SiFacebook className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-instagram">
+                <SiInstagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-twitter">
+                <Twitter className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/services/hydrology" data-testid="link-footer-borehole"><span className="text-muted-foreground hover:text-foreground">Borehole Drilling</span></Link></li>
-              <li><Link href="/services/building-civil" data-testid="link-footer-building"><span className="text-muted-foreground hover:text-foreground">Building Construction</span></Link></li>
-              <li><Link href="/services/solar-installation" data-testid="link-footer-solar"><span className="text-muted-foreground hover:text-foreground">Solar Installation</span></Link></li>
-              <li><Link href="/services/field-investigation" data-testid="link-footer-field"><span className="text-muted-foreground hover:text-foreground">Geological Services</span></Link></li>
-              <li><Link href="/properties" data-testid="link-footer-properties"><span className="text-muted-foreground hover:text-foreground">Property Sales</span></Link></li>
+              <li><Link href="/services/field-investigation" data-testid="link-footer-geological"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Geological Survey</span></Link></li>
+              <li><Link href="/services/site-verification" data-testid="link-footer-verification"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Land Verification</span></Link></li>
+              <li><Link href="/services/estate-management" data-testid="link-footer-estate"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Estate Management</span></Link></li>
+              <li><Link href="/properties" data-testid="link-footer-properties"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Property Sales</span></Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/about" data-testid="link-footer-about"><span className="text-muted-foreground hover:text-foreground">About Us</span></Link></li>
-              <li><Link href="/services" data-testid="link-footer-services"><span className="text-muted-foreground hover:text-foreground">All Services</span></Link></li>
-              <li><Link href="/careers" data-testid="link-footer-careers"><span className="text-muted-foreground hover:text-foreground">Careers</span></Link></li>
-              <li><Link href="/request-quote" data-testid="link-footer-quote"><span className="text-muted-foreground hover:text-foreground">Request Quote</span></Link></li>
-              <li><Link href="/contact" data-testid="link-footer-contact"><span className="text-muted-foreground hover:text-foreground">Contact</span></Link></li>
+              <li><Link href="/about" data-testid="link-footer-about"><span className="text-muted-foreground hover:text-foreground cursor-pointer">About Us</span></Link></li>
+              <li><Link href="/services" data-testid="link-footer-services"><span className="text-muted-foreground hover:text-foreground cursor-pointer">All Services</span></Link></li>
+              <li><Link href="/careers" data-testid="link-footer-careers"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Careers</span></Link></li>
+              <li><Link href="/request-quote" data-testid="link-footer-quote"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Request Quote</span></Link></li>
+              <li><Link href="/contact" data-testid="link-footer-contact"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Contact</span></Link></li>
             </ul>
           </div>
 
