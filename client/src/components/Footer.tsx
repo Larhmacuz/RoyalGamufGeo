@@ -1,6 +1,6 @@
 import { Link } from "wouter";
-import { Mail, Phone, MapPin, MessageCircle, Twitter } from "lucide-react";
-import { SiFacebook, SiInstagram } from "react-icons/si";
+import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { SiX, SiInstagram } from "react-icons/si";
 import logoImage from "@assets/ChatGPT_Image_Jan_16,_2026,_05_38_07_PM_1768638281460.png";
 
 export default function Footer() {
@@ -18,14 +18,11 @@ export default function Footer() {
               Professional geological services and estate management you can trust. CAC registered company serving clients across Nigeria.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-facebook">
-                <SiFacebook className="w-5 h-5" />
+              <a href="https://x.com/royalgamufnig" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-x">
+                <SiX className="w-5 h-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-instagram">
+              <a href="https://www.instagram.com/royalgamuf/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-instagram">
                 <SiInstagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-twitter">
-                <Twitter className="w-5 h-5" />
               </a>
             </div>
           </div>
