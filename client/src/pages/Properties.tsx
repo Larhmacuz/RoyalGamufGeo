@@ -177,10 +177,10 @@ export default function Properties() {
                   +234 811 237 0243
                 </Button>
               </a>
-              <a href="mailto:okeowoabdsalam@gmail.com" className="flex items-center gap-2">
+              <a href="mailto:royalgamufnig.ltd@gmail.com" className="flex items-center gap-2">
                 <Button variant="outline" data-testid="button-email-property">
                   <Mail className="w-4 h-4 mr-2" />
-                  okeowoabdsalam@gmail.com
+                  royalgamufnig.ltd@gmail.com
                 </Button>
               </a>
             </div>

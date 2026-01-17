@@ -37,11 +37,11 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
                     <a 
-                      href="mailto:okeowoabdsalam@gmail.com" 
+                      href="mailto:royalgamufnig.ltd@gmail.com" 
                       className="text-muted-foreground hover:text-foreground"
                       data-testid="link-contact-email"
                     >
-                      okeowoabdsalam@gmail.com
+                      royalgamufnig.ltd@gmail.com
                     </a>
                   </div>
                 </div>

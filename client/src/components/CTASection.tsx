@@ -48,9 +48,9 @@ export default function CTASection() {
             <MessageCircle className="w-5 h-5" />
             <span>WhatsApp Us</span>
           </a>
-          <a href="mailto:okeowoabdsalam@gmail.com" className="flex items-center gap-2 hover:text-white" data-testid="link-cta-email">
+          <a href="mailto:royalgamufnig.ltd@gmail.com" className="flex items-center gap-2 hover:text-white" data-testid="link-cta-email">
             <Mail className="w-5 h-5" />
-            <span>okeowoabdsalam@gmail.com</span>
+            <span>royalgamufnig.ltd@gmail.com</span>
           </a>
         </div>
       </div>
