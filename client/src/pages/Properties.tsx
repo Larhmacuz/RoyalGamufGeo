@@ -171,10 +171,10 @@ export default function Properties() {
               If you have land or property you wish to sell, partner with Royal Gamuf Nig LTD. We connect sellers with verified buyers and ensure smooth, transparent transactions. Our geological expertise allows us to properly assess land value and potential.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:+2348112370243" className="flex items-center gap-2">
+              <a href="tel:+2347048266273" className="flex items-center gap-2">
                 <Button variant="outline" data-testid="button-call-property">
                   <Phone className="w-4 h-4 mr-2" />
-                  +234 811 237 0243
+                  +234 704 826 6273
                 </Button>
               </a>
               <a href="mailto:royalgamufnig.ltd@gmail.com" className="flex items-center gap-2">

@@ -97,7 +97,7 @@ export default function ContactForm() {
               <FormItem>
                 <FormLabel>Phone (Optional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="+234 811 237 0243" {...field} value={field.value || ""} data-testid="input-phone" />
+                  <Input placeholder="+234 704 826 6273" {...field} value={field.value || ""} data-testid="input-phone" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

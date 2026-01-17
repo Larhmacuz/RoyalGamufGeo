@@ -20,9 +20,9 @@ export default function Navbar() {
     <>
       <div className="bg-green-600 text-white py-2 text-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <a href="tel:+2348112370243" className="flex items-center gap-2 hover:text-green-100" data-testid="link-topbar-phone">
+          <a href="tel:+2347048266273" className="flex items-center gap-2 hover:text-green-100" data-testid="link-topbar-phone">
             <Phone className="w-4 h-4" />
-            <span>+234 811 237 0243</span>
+            <span>+234 704 826 6273</span>
           </a>
           <Link href="/request-quote">
             <span className="hidden sm:inline hover:text-green-100 cursor-pointer" data-testid="link-topbar-quote">

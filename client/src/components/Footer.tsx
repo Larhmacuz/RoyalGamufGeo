@@ -58,14 +58,14 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <Phone className="w-4 h-4 mt-0.5 text-green-600" />
-                <a href="tel:+2348112370243" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-phone">
-                  +234 811 237 0243
+                <a href="tel:+2347048266273" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-phone">
+                  +234 704 826 6273
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <MessageCircle className="w-4 h-4 mt-0.5 text-green-600" />
                 <a 
-                  href="https://wa.me/2348112370243" 
+                  href="https://wa.me/2347048266273" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground" 

@@ -34,12 +34,12 @@ export default function CTASection() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-white/90">
-          <a href="tel:+2348112370243" className="flex items-center gap-2 hover:text-white" data-testid="link-cta-phone">
+          <a href="tel:+2347048266273" className="flex items-center gap-2 hover:text-white" data-testid="link-cta-phone">
             <Phone className="w-5 h-5" />
-            <span>+234 811 237 0243</span>
+            <span>+234 704 826 6273</span>
           </a>
           <a 
-            href="https://wa.me/2348112370243" 
+            href="https://wa.me/2347048266273" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-white"
