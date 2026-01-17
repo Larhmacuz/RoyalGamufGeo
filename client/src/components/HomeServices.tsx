@@ -59,13 +59,13 @@ export default function HomeServices() {
           {services.map((service, index) => (
             <Card key={index} className="hover-elevate" data-testid={`card-home-service-${index}`}>
               <CardContent className="pt-6">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4">
-                  <service.icon className="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4">
+                  <service.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
                 <p className="text-muted-foreground text-sm mb-4">{service.description}</p>
                 <Link href={service.link}>
-                  <Button variant="ghost" size="sm" className="px-0 text-green-600 dark:text-green-400">
+                  <Button variant="ghost" size="sm" className="px-0 text-blue-600 dark:text-blue-400">
                     Learn More →
                   </Button>
                 </Link>

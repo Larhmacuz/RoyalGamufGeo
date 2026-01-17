@@ -83,7 +83,7 @@ export default function HomeProperties() {
               <CardContent className="pt-4">
                 <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
                   <Badge variant="secondary" className="text-xs">{property.type}</Badge>
-                  <Badge className="bg-green-600 text-white text-xs">{property.status}</Badge>
+                  <Badge className="bg-blue-600 text-white text-xs">{property.status}</Badge>
                 </div>
                 <h3 className="font-semibold text-lg mb-1">{property.title}</h3>
                 <div className="flex items-center gap-1 text-muted-foreground text-sm mb-2">
@@ -92,7 +92,7 @@ export default function HomeProperties() {
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">{property.size}</p>
                 <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <span className="font-bold text-green-600 dark:text-green-400">{property.price}</span>
+                  <span className="font-bold text-blue-600 dark:text-blue-400">{property.price}</span>
                   <Link href="/properties">
                     <Button size="sm" variant="outline" data-testid={`button-view-property-${property.id}`}>
                       View Details
@@ -106,7 +106,7 @@ export default function HomeProperties() {
 
         <div className="text-center mt-10">
           <Link href="/properties">
-            <Button size="lg" className="bg-green-600 hover:bg-green-700" data-testid="button-view-all-properties">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" data-testid="button-view-all-properties">
               View All Properties
             </Button>
           </Link>

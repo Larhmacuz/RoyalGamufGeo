@@ -59,8 +59,8 @@ export default function WhyChooseUs() {
             <Card key={index} className="hover-elevate" data-testid={`card-reason-${index}`}>
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <reason.icon className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <reason.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">{reason.title}</h3>

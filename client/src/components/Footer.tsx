@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Mail, Phone, MapPin, MessageCircle, Twitter } from "lucide-react";
 import { SiFacebook, SiInstagram } from "react-icons/si";
+import logoImage from "@assets/ChatGPT_Image_Jan_16,_2026,_05_38_07_PM_1768638281460.png";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,10 +12,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-green-600 rounded-md flex items-center justify-center">
-                <span className="text-white font-bold text-sm">RG</span>
-              </div>
-              <span className="font-semibold text-lg">Royal Gamuf</span>
+              <img src={logoImage} alt="Royal Gamuf Nig Ltd" className="h-12 w-auto" />
             </div>
             <p className="text-sm text-muted-foreground mb-4" data-testid="text-footer-tagline">
               Professional geological services and estate management you can trust. CAC registered company serving clients across Nigeria.
@@ -57,13 +55,13 @@ export default function Footer() {
             <h3 className="font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
-                <Phone className="w-4 h-4 mt-0.5 text-green-600" />
+                <Phone className="w-4 h-4 mt-0.5 text-blue-600" />
                 <a href="tel:+2347048266273" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-phone">
                   +234 704 826 6273
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <MessageCircle className="w-4 h-4 mt-0.5 text-green-600" />
+                <MessageCircle className="w-4 h-4 mt-0.5 text-blue-600" />
                 <a 
                   href="https://wa.me/2347048266273" 
                   target="_blank" 
@@ -75,13 +73,13 @@ export default function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <Mail className="w-4 h-4 mt-0.5 text-green-600" />
+                <Mail className="w-4 h-4 mt-0.5 text-blue-600" />
                 <a href="mailto:royalgamufnig.ltd@gmail.com" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-email">
                   royalgamufnig.ltd@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-0.5 text-green-600" />
+                <MapPin className="w-4 h-4 mt-0.5 text-blue-600" />
                 <span className="text-muted-foreground" data-testid="text-footer-address">
                   Nigeria
                 </span>

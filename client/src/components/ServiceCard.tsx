@@ -14,8 +14,8 @@ export default function ServiceCard({ icon: Icon, title, description, slug }: Se
   return (
     <Card className="hover-elevate h-full flex flex-col" data-testid={`card-service-${slug}`}>
       <CardHeader>
-        <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-md flex items-center justify-center mb-4">
-          <Icon className="w-6 h-6 text-green-600 dark:text-green-400" />
+        <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-md flex items-center justify-center mb-4">
+          <Icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
         </div>
         <CardTitle className="text-xl" data-testid={`text-service-title-${slug}`}>{title}</CardTitle>
       </CardHeader>
@@ -24,7 +24,7 @@ export default function ServiceCard({ icon: Icon, title, description, slug }: Se
           {description}
         </CardDescription>
         <Link href={`/services/${slug}`} data-testid={`link-service-${slug}`}>
-          <Button variant="ghost" className="mt-4 px-0 text-green-600 dark:text-green-400 hover:text-green-700">
+          <Button variant="ghost" className="mt-4 px-0 text-blue-600 dark:text-blue-400 hover:text-blue-700">
             Learn More →
           </Button>
         </Link>

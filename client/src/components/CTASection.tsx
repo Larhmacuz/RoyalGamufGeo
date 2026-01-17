@@ -4,7 +4,7 @@ import { Phone, MessageCircle, Mail } from "lucide-react";
 
 export default function CTASection() {
   return (
-    <section className="py-16 bg-green-600 text-white">
+    <section className="py-16 bg-blue-600 text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl font-bold mb-4" data-testid="text-cta-heading">
           Ready to Get Started?
@@ -17,7 +17,7 @@ export default function CTASection() {
           <Link href="/contact" data-testid="link-cta-contact">
             <Button 
               size="lg" 
-              className="bg-white text-green-600 hover:bg-white/90"
+              className="bg-white text-blue-600 hover:bg-white/90"
             >
               Contact Us
             </Button>

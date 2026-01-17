@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
 import { useState } from "react";
+import logoImage from "@assets/ChatGPT_Image_Jan_16,_2026,_05_38_07_PM_1768638281460.png";
 
 export default function Navbar() {
   const [location] = useLocation();
@@ -18,17 +19,12 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-green-600 text-white py-2 text-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <a href="tel:+2347048266273" className="flex items-center gap-2 hover:text-green-100" data-testid="link-topbar-phone">
+      <div className="bg-blue-600 text-white py-2 text-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+          <a href="tel:+2347048266273" className="flex items-center gap-2 hover:text-blue-100" data-testid="link-topbar-phone">
             <Phone className="w-4 h-4" />
             <span>+234 704 826 6273</span>
           </a>
-          <Link href="/request-quote">
-            <span className="hidden sm:inline hover:text-green-100 cursor-pointer" data-testid="link-topbar-quote">
-              Request Free Quote
-            </span>
-          </Link>
         </div>
       </div>
       
@@ -37,10 +33,8 @@ export default function Navbar() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" data-testid="link-home">
               <div className="flex items-center gap-2 hover-elevate active-elevate-2 px-2 py-1 rounded-md cursor-pointer">
-                <div className="w-8 h-8 bg-green-600 rounded-md flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">RG</span>
-                </div>
-                <span className="font-semibold text-lg">Royal Gamuf</span>
+                <img src={logoImage} alt="Royal Gamuf Nig Ltd" className="h-10 w-auto" />
+                <span className="font-semibold text-lg hidden sm:inline">Royal Gamuf</span>
               </div>
             </Link>
 
@@ -56,9 +50,9 @@ export default function Navbar() {
                   </Button>
                 </Link>
               ))}
-              <Link href="/request-quote" data-testid="link-get-quote">
-                <Button size="sm" className="ml-2 bg-green-600 hover:bg-green-700">
-                  Get Quote
+              <Link href="/contact" data-testid="link-contact-btn">
+                <Button size="sm" className="ml-2 bg-blue-600 hover:bg-blue-700">
+                  Contact Us
                 </Button>
               </Link>
             </div>
@@ -90,12 +84,12 @@ export default function Navbar() {
                   </Button>
                 </Link>
               ))}
-              <Link href="/request-quote">
+              <Link href="/contact">
                 <Button 
-                  className="w-full bg-green-600 hover:bg-green-700"
+                  className="w-full bg-blue-600 hover:bg-blue-700"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Get Quote
+                  Contact Us
                 </Button>
               </Link>
             </div>
