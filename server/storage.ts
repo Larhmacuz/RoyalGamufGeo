@@ -1,4 +1,10 @@
-import { type User, type InsertUser, type PropertyInquiry, type InsertPropertyInquiry, users, propertyInquiries } from "@shared/schema";
+import { 
+  type User, type InsertUser, 
+  type PropertyInquiry, type InsertPropertyInquiry, 
+  type ContactInquiry, type InsertContactInquiry,
+  type QuoteRequest, type InsertQuoteRequest,
+  users, propertyInquiries, contactInquiries, quoteRequests 
+} from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import crypto from "crypto";
@@ -9,6 +15,8 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   createPropertyInquiry(inquiry: InsertPropertyInquiry): Promise<PropertyInquiry>;
   getPropertyInquiries(): Promise<PropertyInquiry[]>;
+  createContactInquiry(inquiry: InsertContactInquiry): Promise<ContactInquiry>;
+  createQuoteRequest(request: InsertQuoteRequest): Promise<QuoteRequest>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -65,6 +73,73 @@ export class DatabaseStorage implements IStorage {
 
   async getPropertyInquiries(): Promise<PropertyInquiry[]> {
     return db.select().from(propertyInquiries);
+  }
+
+  async createContactInquiry(insertInquiry: InsertContactInquiry): Promise<ContactInquiry> {
+    const id = crypto.randomUUID();
+    const createdAt = new Date();
+    
+    await db.insert(contactInquiries).values({
+      ...insertInquiry,
+      id,
+    });
+    
+    const inquiry: ContactInquiry = {
+      id,
+      name: insertInquiry.name,
+      email: insertInquiry.email,
+      phone: insertInquiry.phone ?? null,
+      service: insertInquiry.service,
+      message: insertInquiry.message,
+      createdAt,
+    };
+    
+    console.log("📧 New Contact Inquiry Saved to Database:");
+    console.log("   ID:", inquiry.id);
+    console.log("   Timestamp:", inquiry.createdAt);
+    console.log("   From:", inquiry.name);
+    console.log("   Email:", inquiry.email);
+    console.log("   Phone:", inquiry.phone || "Not provided");
+    console.log("   Service:", inquiry.service);
+    console.log("   Message:", inquiry.message);
+    return inquiry;
+  }
+
+  async createQuoteRequest(insertRequest: InsertQuoteRequest): Promise<QuoteRequest> {
+    const id = crypto.randomUUID();
+    const createdAt = new Date();
+    
+    await db.insert(quoteRequests).values({
+      ...insertRequest,
+      id,
+    });
+    
+    const request: QuoteRequest = {
+      id,
+      companyName: insertRequest.companyName,
+      contactName: insertRequest.contactName,
+      email: insertRequest.email,
+      phone: insertRequest.phone,
+      serviceType: insertRequest.serviceType,
+      projectLocation: insertRequest.projectLocation,
+      projectScope: insertRequest.projectScope,
+      timeline: insertRequest.timeline,
+      budget: insertRequest.budget ?? null,
+      createdAt,
+    };
+    
+    console.log("📧 New Quote Request Saved to Database:");
+    console.log("   ID:", request.id);
+    console.log("   Timestamp:", request.createdAt);
+    console.log("   Company:", request.companyName);
+    console.log("   Contact:", request.contactName);
+    console.log("   Email:", request.email);
+    console.log("   Phone:", request.phone);
+    console.log("   Service:", request.serviceType);
+    console.log("   Location:", request.projectLocation);
+    console.log("   Timeline:", request.timeline);
+    console.log("   Budget:", request.budget || "Not specified");
+    return request;
   }
 }
 

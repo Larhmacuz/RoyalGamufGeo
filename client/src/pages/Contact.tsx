@@ -69,6 +69,9 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Location</h3>
                     <p className="text-muted-foreground" data-testid="text-contact-location">
+                      Plot 42, Geological Survey Road<br />
+                      Independence Layout<br />
+                      Enugu, Enugu State<br />
                       Nigeria
                     </p>
                   </div>

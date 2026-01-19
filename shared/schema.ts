@@ -24,14 +24,38 @@ export const contactInquiries = pgTable("contact_inquiries", {
   phone: text("phone"),
   service: text("service").notNull(),
   message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const insertContactInquirySchema = createInsertSchema(contactInquiries).omit({
   id: true,
+  createdAt: true,
 });
 
 export type InsertContactInquiry = z.infer<typeof insertContactInquirySchema>;
 export type ContactInquiry = typeof contactInquiries.$inferSelect;
+
+export const quoteRequests = pgTable("quote_requests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  companyName: text("company_name").notNull(),
+  contactName: text("contact_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  serviceType: text("service_type").notNull(),
+  projectLocation: text("project_location").notNull(),
+  projectScope: text("project_scope").notNull(),
+  timeline: text("timeline").notNull(),
+  budget: text("budget"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertQuoteRequestSchema = createInsertSchema(quoteRequests).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertQuoteRequest = z.infer<typeof insertQuoteRequestSchema>;
+export type QuoteRequest = typeof quoteRequests.$inferSelect;
 
 export const propertyInquiries = pgTable("property_inquiries", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

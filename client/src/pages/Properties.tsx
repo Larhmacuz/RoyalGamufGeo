@@ -2,10 +2,20 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyInquiryModal from "@/components/PropertyInquiryModal";
+import PropertyGalleryModal from "@/components/PropertyGalleryModal";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Maximize, Phone, Mail } from "lucide-react";
+import { MapPin, Maximize, Phone, Mail, ImageIcon } from "lucide-react";
+
+import commercialLand1 from "@assets/stock_images/empty_land_plot_comm_1470f94f.jpg";
+import commercialLand2 from "@assets/stock_images/empty_land_plot_comm_14dc261f.jpg";
+import residentialLand1 from "@assets/stock_images/residential_land_plo_68c4c986.jpg";
+import residentialLand2 from "@assets/stock_images/residential_land_plo_fa8a42ce.jpg";
+import officeBuilding1 from "@assets/stock_images/modern_office_buildi_72d92934.jpg";
+import officeBuilding2 from "@assets/stock_images/modern_office_buildi_86ce5b4f.jpg";
+import warehouse1 from "@assets/stock_images/industrial_warehouse_523b4cd7.jpg";
+import warehouse2 from "@assets/stock_images/industrial_warehouse_daaf486a.jpg";
 
 const properties = [
   {
@@ -17,7 +27,8 @@ const properties = [
     size: "2,500 sqm",
     price: "₦150,000,000",
     description: "Prime commercial land in strategic Lekki location, suitable for commercial development or investment.",
-    features: ["Fenced", "Accessible Road", "C of O Available"]
+    features: ["Fenced", "Accessible Road", "C of O Available"],
+    images: [commercialLand1, commercialLand2]
   },
   {
     id: 2,
@@ -28,7 +39,8 @@ const properties = [
     size: "1,200 sqm",
     price: "₦85,000,000",
     description: "Well-positioned residential plot in serene Gwarinpa estate with all necessary documentation.",
-    features: ["Tarred Road", "Electricity", "R of O"]
+    features: ["Tarred Road", "Electricity", "R of O"],
+    images: [residentialLand1, residentialLand2]
   },
   {
     id: 3,
@@ -39,7 +51,8 @@ const properties = [
     size: "500 sqm",
     price: "₦12,000,000/year",
     description: "Modern office complex with multiple units, ideal for corporate headquarters or business operations.",
-    features: ["24/7 Power", "Parking", "Security"]
+    features: ["24/7 Power", "Parking", "Security"],
+    images: [officeBuilding1, officeBuilding2]
   },
   {
     id: 4,
@@ -50,7 +63,8 @@ const properties = [
     size: "10,000 sqm",
     price: "₦200,000,000",
     description: "Large industrial land suitable for manufacturing, warehousing, or logistics operations.",
-    features: ["Near Expressway", "Flat Terrain", "Gazette"]
+    features: ["Near Expressway", "Flat Terrain", "Gazette"],
+    images: [warehouse1, commercialLand1]
   },
   {
     id: 5,
@@ -61,7 +75,8 @@ const properties = [
     size: "800 sqm",
     price: "₦25,000,000",
     description: "Affordable residential plot in well-developed Bodija area with growing property value.",
-    features: ["Good Drainage", "Estate Security", "C of O"]
+    features: ["Good Drainage", "Estate Security", "C of O"],
+    images: [residentialLand2, residentialLand1]
   },
   {
     id: 6,
@@ -72,17 +87,25 @@ const properties = [
     size: "2,000 sqm",
     price: "₦35,000,000/year",
     description: "Spacious warehouse facility in prime Apapa industrial zone, close to port facilities.",
-    features: ["Loading Bay", "High Ceiling", "Security"]
+    features: ["Loading Bay", "High Ceiling", "Security"],
+    images: [warehouse2, warehouse1]
   }
 ];
 
 export default function Properties() {
   const [selectedProperty, setSelectedProperty] = useState<typeof properties[0] | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryProperty, setGalleryProperty] = useState<typeof properties[0] | null>(null);
 
   const handleInquire = (property: typeof properties[0]) => {
     setSelectedProperty(property);
     setModalOpen(true);
+  };
+
+  const handleOpenGallery = (property: typeof properties[0]) => {
+    setGalleryProperty(property);
+    setGalleryOpen(true);
   };
 
   return (
@@ -127,8 +150,30 @@ export default function Properties() {
             <h2 className="text-3xl font-bold mb-6">Available Properties</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {properties.map((property) => (
-                <Card key={property.id} className="hover-elevate" data-testid={`card-property-${property.id}`}>
-                  <CardHeader>
+                <Card key={property.id} className="hover-elevate overflow-hidden" data-testid={`card-property-${property.id}`}>
+                  <div 
+                    className="relative aspect-video bg-muted cursor-pointer group"
+                    onClick={() => handleOpenGallery(property)}
+                    data-testid={`img-property-${property.id}`}
+                  >
+                    {property.images && property.images.length > 0 ? (
+                      <img 
+                        src={property.images[0]} 
+                        alt={property.title}
+                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ImageIcon className="w-12 h-12 text-muted-foreground" />
+                      </div>
+                    )}
+                    {property.images && property.images.length > 1 && (
+                      <div className="absolute bottom-2 right-2 bg-background/80 backdrop-blur px-2 py-1 rounded text-xs font-medium">
+                        +{property.images.length - 1} more
+                      </div>
+                    )}
+                  </div>
+                  <CardHeader className="pb-2">
                     <div className="flex justify-between items-start gap-2 flex-wrap">
                       <Badge variant={property.type === "For Sale" ? "default" : "secondary"}>
                         {property.type}
@@ -206,6 +251,15 @@ export default function Properties() {
         open={modalOpen}
         onOpenChange={setModalOpen}
       />
+
+      {galleryProperty && (
+        <PropertyGalleryModal
+          images={galleryProperty.images || []}
+          title={galleryProperty.title}
+          open={galleryOpen}
+          onOpenChange={setGalleryOpen}
+        />
+      )}
     </div>
   );
 }

@@ -12,6 +12,7 @@ const serviceDetails: Record<string, {
   overview: string;
   deliverables: string[];
   process: { step: string; description: string }[];
+  packages?: { name: string; description: string; features: string[]; priceRange?: string }[];
 }> = {
   "field-investigation": {
     title: "Geological Works & Field Investigation",
@@ -30,6 +31,25 @@ const serviceDetails: Record<string, {
       { step: "Field Survey", description: "Systematic geological mapping and sampling" },
       { step: "Laboratory Analysis", description: "Sample testing and characterization" },
       { step: "Reporting", description: "Comprehensive documentation and recommendations" }
+    ],
+    packages: [
+      {
+        name: "Basic Survey",
+        description: "Ideal for small plots and residential projects",
+        features: ["Site visit and visual inspection", "Basic soil sampling (3-5 points)", "Summary report with findings", "Up to 1 hectare coverage"],
+        priceRange: "₦150,000 - ₦350,000"
+      },
+      {
+        name: "Standard Investigation",
+        description: "Comprehensive survey for commercial developments",
+        features: ["Detailed geological mapping", "Soil and rock sampling (10+ points)", "Laboratory analysis included", "Full technical report", "Up to 5 hectares coverage"],
+        priceRange: "₦500,000 - ₦1,500,000"
+      },
+      {
+        name: "Advanced Assessment",
+        description: "Large-scale projects and complex terrain",
+        features: ["Multi-phase investigation", "Geophysical surveys included", "Advanced laboratory testing", "GIS data integration", "Unlimited site coverage", "Ongoing consultation support"]
+      }
     ]
   },
   "mineral-exploration": {
@@ -106,6 +126,25 @@ const serviceDetails: Record<string, {
       { step: "Laboratory Testing", description: "Soil and rock property analysis" },
       { step: "Analysis", description: "Geotechnical evaluation" },
       { step: "Design Support", description: "Engineering recommendations" }
+    ],
+    packages: [
+      {
+        name: "Residential Foundation",
+        description: "For single-family homes and duplexes",
+        features: ["2-3 trial pits or boreholes", "Basic soil testing", "Foundation recommendations", "Summary report"],
+        priceRange: "₦200,000 - ₦400,000"
+      },
+      {
+        name: "Commercial Development",
+        description: "Multi-story buildings and commercial projects",
+        features: ["Multiple borehole drilling", "Comprehensive soil analysis", "Bearing capacity calculations", "Foundation design support", "Detailed geotechnical report"],
+        priceRange: "₦800,000 - ₦2,500,000"
+      },
+      {
+        name: "Infrastructure Projects",
+        description: "Roads, bridges, and large-scale developments",
+        features: ["Extensive site investigation", "Specialized testing protocols", "Slope stability analysis", "Ground improvement recommendations", "Ongoing project support"]
+      }
     ]
   },
   "consultation": {
@@ -212,6 +251,46 @@ export default function ServiceDetail() {
               ))}
             </div>
           </section>
+
+          {service.packages && service.packages.length > 0 && (
+            <section>
+              <h2 className="text-2xl font-bold mb-6">Service Packages</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {service.packages.map((pkg, index) => (
+                  <div 
+                    key={index} 
+                    className="border rounded-lg p-6 flex flex-col h-full"
+                    data-testid={`card-package-${index}`}
+                  >
+                    <h3 className="text-lg font-semibold mb-2">{pkg.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-4">{pkg.description}</p>
+                    <ul className="space-y-2 flex-1 mb-4">
+                      {pkg.features.map((feature, fIndex) => (
+                        <li key={fIndex} className="flex items-start gap-2 text-sm">
+                          <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {pkg.priceRange ? (
+                      <div className="mt-auto pt-4 border-t">
+                        <p className="text-sm text-muted-foreground">Starting from</p>
+                        <p className="text-lg font-bold text-primary">{pkg.priceRange}</p>
+                      </div>
+                    ) : (
+                      <div className="mt-auto pt-4 border-t">
+                        <p className="text-sm text-muted-foreground">Custom pricing</p>
+                        <p className="text-lg font-bold text-primary">Contact for Quote</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground mt-4 text-center">
+                Prices are indicative and may vary based on project specifics. Contact us for a detailed quotation.
+              </p>
+            </section>
+          )}
 
           <section className="bg-card rounded-lg p-8 border text-center">
             <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>

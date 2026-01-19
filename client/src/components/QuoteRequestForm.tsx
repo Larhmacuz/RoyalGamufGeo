@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useMutation } from "@tanstack/react-query";
+import { insertQuoteRequestSchema, type InsertQuoteRequest } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,20 +22,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { apiRequest } from "@/lib/queryClient";
+import { CheckCircle, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
-const quoteRequestSchema = z.object({
-  companyName: z.string().min(2, "Company name must be at least 2 characters"),
-  contactName: z.string().min(2, "Contact name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  serviceType: z.string().min(1, "Please select a service type"),
-  projectLocation: z.string().min(3, "Please provide project location"),
-  projectScope: z.string().min(50, "Please provide more details about your project (at least 50 characters)"),
-  timeline: z.string().min(1, "Please select a timeline"),
-  budget: z.string().optional(),
+const quoteRequestFormSchema = insertQuoteRequestSchema.extend({
+  companyName: insertQuoteRequestSchema.shape.companyName.refine(
+    (val) => val.length >= 2,
+    "Company name must be at least 2 characters"
+  ),
+  contactName: insertQuoteRequestSchema.shape.contactName.refine(
+    (val) => val.length >= 2,
+    "Contact name must be at least 2 characters"
+  ),
+  phone: insertQuoteRequestSchema.shape.phone.refine(
+    (val) => val.length >= 10,
+    "Phone number must be at least 10 digits"
+  ),
+  projectLocation: insertQuoteRequestSchema.shape.projectLocation.refine(
+    (val) => val.length >= 3,
+    "Please provide project location"
+  ),
+  projectScope: insertQuoteRequestSchema.shape.projectScope.refine(
+    (val) => val.length >= 50,
+    "Please provide more details about your project (at least 50 characters)"
+  ),
 });
-
-type QuoteRequestFormData = z.infer<typeof quoteRequestSchema>;
 
 const services = [
   "Geological Works & Field Investigation",
@@ -62,9 +75,10 @@ const timelines = [
 
 export default function QuoteRequestForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { toast } = useToast();
 
-  const form = useForm<QuoteRequestFormData>({
-    resolver: zodResolver(quoteRequestSchema),
+  const form = useForm<InsertQuoteRequest>({
+    resolver: zodResolver(quoteRequestFormSchema),
     defaultValues: {
       companyName: "",
       contactName: "",
@@ -78,21 +92,48 @@ export default function QuoteRequestForm() {
     },
   });
 
-  const onSubmit = (data: QuoteRequestFormData) => {
-    console.log("Quote request submitted:", data);
-    setIsSubmitted(true);
-    form.reset();
-    setTimeout(() => setIsSubmitted(false), 5000);
+  const submitMutation = useMutation({
+    mutationFn: async (data: InsertQuoteRequest) => {
+      const response = await apiRequest("POST", "/api/quote-requests", data);
+      return response.json();
+    },
+    onSuccess: () => {
+      setIsSubmitted(true);
+      form.reset();
+    },
+    onError: (error) => {
+      console.error("Quote request submission error:", error);
+      toast({
+        variant: "destructive",
+        title: "Submission Failed",
+        description: "There was a problem submitting your quote request. Please try again.",
+      });
+    },
+  });
+
+  const onSubmit = (data: InsertQuoteRequest) => {
+    submitMutation.mutate(data);
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="bg-card rounded-lg p-6 border">
+        <div className="text-center py-8">
+          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold mb-2" data-testid="text-success-title">Quote Request Submitted!</h3>
+          <p className="text-muted-foreground mb-6" data-testid="text-success-message">
+            Our team will review your request and get back to you within 24-48 hours with a detailed quotation.
+          </p>
+          <Button onClick={() => setIsSubmitted(false)} variant="outline" data-testid="button-submit-another">
+            Submit Another Request
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-card rounded-lg p-6 border">
-      {isSubmitted && (
-        <div className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-md text-center" data-testid="text-success-message">
-          <p className="font-medium mb-1">Quote Request Submitted Successfully!</p>
-          <p className="text-sm text-muted-foreground">Our team will review your request and get back to you within 24-48 hours with a detailed quotation.</p>
-        </div>
-      )}
       
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -261,8 +302,21 @@ export default function QuoteRequestForm() {
             />
           </div>
 
-          <Button type="submit" className="w-full" size="lg" data-testid="button-submit">
-            Request Quote
+          <Button 
+            type="submit" 
+            className="w-full" 
+            size="lg" 
+            disabled={submitMutation.isPending}
+            data-testid="button-submit"
+          >
+            {submitMutation.isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              "Request Quote"
+            )}
           </Button>
         </form>
       </Form>

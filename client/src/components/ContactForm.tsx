@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { insertContactInquirySchema, type InsertContactInquiry } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { apiRequest } from "@/lib/queryClient";
+import { CheckCircle, Loader2, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const services = [
   "Geological Works & Field Investigation",
@@ -33,6 +37,7 @@ const services = [
 
 export default function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<InsertContactInquiry>({
     resolver: zodResolver(insertContactInquirySchema),
@@ -45,20 +50,48 @@ export default function ContactForm() {
     },
   });
 
+  const submitMutation = useMutation({
+    mutationFn: async (data: InsertContactInquiry) => {
+      const response = await apiRequest("POST", "/api/contact-inquiries", data);
+      return response.json();
+    },
+    onSuccess: () => {
+      setIsSubmitted(true);
+      form.reset();
+    },
+    onError: (error) => {
+      console.error("Contact form submission error:", error);
+      toast({
+        variant: "destructive",
+        title: "Submission Failed",
+        description: "There was a problem sending your message. Please try again.",
+      });
+    },
+  });
+
   const onSubmit = (data: InsertContactInquiry) => {
-    console.log("Form submitted:", data);
-    setIsSubmitted(true);
-    form.reset();
-    setTimeout(() => setIsSubmitted(false), 3000);
+    submitMutation.mutate(data);
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="bg-card rounded-lg p-6 border">
+        <div className="text-center py-8">
+          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold mb-2" data-testid="text-success-title">Message Sent!</h3>
+          <p className="text-muted-foreground mb-6" data-testid="text-success-message">
+            Thank you for contacting us. We'll get back to you within 24 hours.
+          </p>
+          <Button onClick={() => setIsSubmitted(false)} variant="outline" data-testid="button-send-another">
+            Send Another Message
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-card rounded-lg p-6 border">
-      {isSubmitted && (
-        <div className="mb-4 p-4 bg-primary/10 border border-primary/20 rounded-md text-center" data-testid="text-success-message">
-          <p className="text-sm font-medium">Thank you for your inquiry! We'll get back to you soon.</p>
-        </div>
-      )}
       
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -148,8 +181,20 @@ export default function ContactForm() {
             )}
           />
 
-          <Button type="submit" className="w-full" data-testid="button-submit">
-            Send Inquiry
+          <Button 
+            type="submit" 
+            className="w-full" 
+            disabled={submitMutation.isPending}
+            data-testid="button-submit"
+          >
+            {submitMutation.isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Sending...
+              </>
+            ) : (
+              "Send Inquiry"
+            )}
           </Button>
         </form>
       </Form>
