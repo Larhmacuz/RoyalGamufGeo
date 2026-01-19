@@ -52,11 +52,24 @@ Preferred communication style: Simple, everyday language.
 ```
 
 ### Design System
-- Professional B2B aesthetic with green primary color (#16a34a)
+- Professional B2B aesthetic with blue primary color (matching company logo)
 - Light/dark mode support via CSS variables
 - Typography: Inter/Roboto font family
 - Responsive design with mobile-first approach
 - Custom hover/elevation effects for interactive elements
+
+### Key Features
+- **Contact Form**: Database-backed form submission with loading states and success confirmation
+- **Quote Request Form**: Database-backed form submission with loading states and success confirmation
+- **Property Gallery**: Interactive image gallery modal with thumbnails and navigation
+- **Service Packages**: Optional pricing packages for select services (field-investigation, engineering-geology)
+- **WhatsApp Floating Button**: Green WhatsApp button for quick contact
+
+### Company Information
+- **Email**: royalgamufnig.ltd@gmail.com
+- **Phone**: +234 704 826 6273
+- **Address**: Plot 42, Geological Survey Road, Independence Layout, Enugu, Enugu State, Nigeria
+- **Social Media**: X (@royalgamufnig), Instagram (@royalgamuf)
 
 ## External Dependencies
 
