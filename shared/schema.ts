@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -43,10 +43,12 @@ export const propertyInquiries = pgTable("property_inquiries", {
   propertyLocation: text("property_location").notNull(),
   propertyPrice: text("property_price").notNull(),
   propertyType: text("property_type").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const insertPropertyInquirySchema = createInsertSchema(propertyInquiries).omit({
   id: true,
+  createdAt: true,
 });
 
 export type InsertPropertyInquiry = z.infer<typeof insertPropertyInquirySchema>;

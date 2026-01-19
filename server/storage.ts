@@ -1,5 +1,7 @@
-import { type User, type InsertUser, type PropertyInquiry, type InsertPropertyInquiry } from "@shared/schema";
-import { randomUUID } from "crypto";
+import { type User, type InsertUser, type PropertyInquiry, type InsertPropertyInquiry, users, propertyInquiries } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+import crypto from "crypto";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -9,37 +11,47 @@ export interface IStorage {
   getPropertyInquiries(): Promise<PropertyInquiry[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-  private propertyInquiries: Map<string, PropertyInquiry>;
-
-  constructor() {
-    this.users = new Map();
-    this.propertyInquiries = new Map();
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
 
   async createPropertyInquiry(insertInquiry: InsertPropertyInquiry): Promise<PropertyInquiry> {
-    const id = randomUUID();
-    const inquiry: PropertyInquiry = { ...insertInquiry, id };
-    this.propertyInquiries.set(id, inquiry);
-    console.log("📧 New Property Inquiry Received:");
+    const id = crypto.randomUUID();
+    const createdAt = new Date();
+    
+    await db.insert(propertyInquiries).values({
+      ...insertInquiry,
+      id,
+    });
+    
+    const inquiry: PropertyInquiry = {
+      id,
+      fullName: insertInquiry.fullName,
+      phone: insertInquiry.phone,
+      email: insertInquiry.email ?? null,
+      message: insertInquiry.message,
+      propertyTitle: insertInquiry.propertyTitle,
+      propertyLocation: insertInquiry.propertyLocation,
+      propertyPrice: insertInquiry.propertyPrice,
+      propertyType: insertInquiry.propertyType,
+      createdAt,
+    };
+    
+    console.log("📧 New Property Inquiry Saved to Database:");
+    console.log("   ID:", inquiry.id);
+    console.log("   Timestamp:", inquiry.createdAt);
     console.log("   Property:", inquiry.propertyTitle);
     console.log("   Location:", inquiry.propertyLocation);
     console.log("   Price:", inquiry.propertyPrice);
@@ -52,8 +64,8 @@ export class MemStorage implements IStorage {
   }
 
   async getPropertyInquiries(): Promise<PropertyInquiry[]> {
-    return Array.from(this.propertyInquiries.values());
+    return db.select().from(propertyInquiries);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
