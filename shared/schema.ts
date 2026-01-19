@@ -32,3 +32,22 @@ export const insertContactInquirySchema = createInsertSchema(contactInquiries).o
 
 export type InsertContactInquiry = z.infer<typeof insertContactInquirySchema>;
 export type ContactInquiry = typeof contactInquiries.$inferSelect;
+
+export const propertyInquiries = pgTable("property_inquiries", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  fullName: text("full_name").notNull(),
+  phone: text("phone").notNull(),
+  email: text("email"),
+  message: text("message").notNull(),
+  propertyTitle: text("property_title").notNull(),
+  propertyLocation: text("property_location").notNull(),
+  propertyPrice: text("property_price").notNull(),
+  propertyType: text("property_type").notNull(),
+});
+
+export const insertPropertyInquirySchema = createInsertSchema(propertyInquiries).omit({
+  id: true,
+});
+
+export type InsertPropertyInquiry = z.infer<typeof insertPropertyInquirySchema>;
+export type PropertyInquiry = typeof propertyInquiries.$inferSelect;

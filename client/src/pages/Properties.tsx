@@ -1,10 +1,11 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PropertyInquiryModal from "@/components/PropertyInquiryModal";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Bed, Bath, Maximize, Phone, Mail } from "lucide-react";
-import { Link } from "wouter";
+import { MapPin, Maximize, Phone, Mail } from "lucide-react";
 
 const properties = [
   {
@@ -76,6 +77,14 @@ const properties = [
 ];
 
 export default function Properties() {
+  const [selectedProperty, setSelectedProperty] = useState<typeof properties[0] | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleInquire = (property: typeof properties[0]) => {
+    setSelectedProperty(property);
+    setModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -153,11 +162,13 @@ export default function Properties() {
                       <span className="font-bold text-lg text-primary" data-testid="text-property-price">
                         {property.price}
                       </span>
-                      <Link href="/contact">
-                        <Button size="sm" data-testid={`button-inquire-${property.id}`}>
-                          Inquire
-                        </Button>
-                      </Link>
+                      <Button 
+                        size="sm" 
+                        onClick={() => handleInquire(property)}
+                        data-testid={`button-inquire-${property.id}`}
+                      >
+                        Inquire
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -189,6 +200,12 @@ export default function Properties() {
       </div>
 
       <Footer />
+
+      <PropertyInquiryModal
+        property={selectedProperty}
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+      />
     </div>
   );
 }
