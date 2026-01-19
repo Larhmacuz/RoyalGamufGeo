@@ -13,7 +13,6 @@ export default function Navbar() {
     { path: "/services", label: "Services" },
     { path: "/properties", label: "Properties" },
     { path: "/about", label: "About" },
-    { path: "/careers", label: "Careers" },
     { path: "/contact", label: "Contact" },
   ];
 
@@ -50,11 +49,6 @@ export default function Navbar() {
                   </Button>
                 </Link>
               ))}
-              <Link href="/contact" data-testid="link-contact-btn">
-                <Button size="sm" className="ml-2 bg-blue-600 hover:bg-blue-700">
-                  Contact Us
-                </Button>
-              </Link>
             </div>
 
             <div className="md:hidden">
@@ -84,14 +78,6 @@ export default function Navbar() {
                   </Button>
                 </Link>
               ))}
-              <Link href="/contact">
-                <Button 
-                  className="w-full bg-blue-600 hover:bg-blue-700"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact Us
-                </Button>
-              </Link>
             </div>
           </div>
         )}
