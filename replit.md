@@ -68,7 +68,8 @@ Preferred communication style: Simple, everyday language.
 ### Company Information
 - **Email**: royalgamufnig.ltd@gmail.com
 - **Phone**: +234 704 826 6273
-- **Address**: Plot 42, Geological Survey Road, Independence Layout, Enugu, Enugu State, Nigeria
+- **Address**: Suite 27 & 28, S.O.A. Shopping Complex, Abiola Way, Olorunsogo, Abeokuta, Ogun State, Nigeria
+- **RC Number**: 1001042
 - **Social Media**: X (@royalgamufnig), Instagram (@royalgamuf)
 
 ## External Dependencies

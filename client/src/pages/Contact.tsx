@@ -69,10 +69,13 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Location</h3>
                     <p className="text-muted-foreground" data-testid="text-contact-location">
-                      Plot 42, Geological Survey Road<br />
-                      Independence Layout<br />
-                      Enugu, Enugu State<br />
+                      Suite 27 & 28, S.O.A. Shopping Complex<br />
+                      Abiola Way, Olorunsogo<br />
+                      Abeokuta, Ogun State<br />
                       Nigeria
+                    </p>
+                    <p className="text-muted-foreground text-sm mt-2" data-testid="text-contact-rc">
+                      RC: 1001042
                     </p>
                   </div>
                 </div>

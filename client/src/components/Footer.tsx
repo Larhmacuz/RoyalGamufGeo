@@ -15,7 +15,7 @@ export default function Footer() {
               <img src={logoImage} alt="Royal Gamuf Nig Ltd" className="h-12 w-auto" />
             </div>
             <p className="text-sm text-muted-foreground mb-4" data-testid="text-footer-tagline">
-              Professional geological services and estate management you can trust. CAC registered company serving clients across Nigeria.
+              Professional geological services and estate management you can trust. CAC registered (RC: 1001042) serving clients across Nigeria.
             </p>
             <div className="flex items-center gap-4">
               <a href="https://x.com/royalgamufnig" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground" data-testid="link-footer-x">
@@ -78,10 +78,9 @@ export default function Footer() {
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 text-blue-600 flex-shrink-0" />
                 <span className="text-muted-foreground" data-testid="text-footer-address">
-                  Plot 42, Geological Survey Road<br />
-                  Independence Layout<br />
-                  Enugu, Enugu State<br />
-                  Nigeria
+                  Suite 27 & 28, S.O.A. Shopping Complex<br />
+                  Abiola Way, Olorunsogo<br />
+                  Abeokuta, Ogun State, Nigeria
                 </span>
               </li>
             </ul>
