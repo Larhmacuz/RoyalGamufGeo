@@ -64,6 +64,9 @@ Preferred communication style: Simple, everyday language.
 - **Property Gallery**: Interactive image gallery modal with thumbnails and navigation
 - **Service Packages**: Optional pricing packages for select services (field-investigation, engineering-geology)
 - **WhatsApp Floating Button**: Green WhatsApp button for quick contact
+- **Client Testimonials**: Homepage section with client reviews and star ratings
+- **Service Areas**: Homepage section showing coverage across South-West Nigeria
+- **FAQ Page**: Frequently asked questions about services with accordion-style answers
 
 ### Company Information
 - **Email**: royalgamufnig.ltd@gmail.com
