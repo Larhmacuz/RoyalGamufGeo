@@ -4,6 +4,8 @@ import HomeServices from "@/components/HomeServices";
 import HomeProperties from "@/components/HomeProperties";
 import HomeAbout from "@/components/HomeAbout";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import Testimonials from "@/components/Testimonials";
+import ServiceAreas from "@/components/ServiceAreas";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -16,6 +18,8 @@ export default function Home() {
       <HomeProperties />
       <HomeAbout />
       <WhyChooseUs />
+      <Testimonials />
+      <ServiceAreas />
       <CTASection />
       <Footer />
     </div>

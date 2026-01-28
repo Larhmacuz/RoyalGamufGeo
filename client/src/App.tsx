@@ -11,6 +11,7 @@ import About from "@/pages/About";
 import Careers from "@/pages/Careers";
 import RequestQuote from "@/pages/RequestQuote";
 import Contact from "@/pages/Contact";
+import FAQ from "@/pages/FAQ";
 import NotFound from "@/pages/not-found";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/careers" component={Careers} />
       <Route path="/request-quote" component={RequestQuote} />
       <Route path="/contact" component={Contact} />
+      <Route path="/faq" component={FAQ} />
       <Route component={NotFound} />
     </Switch>
   );
