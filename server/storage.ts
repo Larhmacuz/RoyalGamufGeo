@@ -49,18 +49,30 @@ export class DatabaseStorage implements IStorage {
   async getUserByUsername(username: string): Promise<User | undefined> {
     try {
       const result = await db.execute(sql`SELECT id, username, password, is_admin::text as is_admin_text FROM users WHERE username = ${username}`);
-      if (result && result.rows && result.rows.length > 0) {
-        const row = result.rows[0] as any;
-        return {
-          id: row.id,
-          username: row.username,
-          password: row.password,
-          isAdmin: row.is_admin_text === 'true' || row.is_admin_text === 't',
-        };
+      if (!result || !result.rows || result.rows.length === 0) {
+        return undefined;
       }
-      return undefined;
+      const row = result.rows[0] as any;
+      return {
+        id: row.id,
+        username: row.username,
+        password: row.password,
+        isAdmin: row.is_admin_text === 'true' || row.is_admin_text === 't',
+      };
     } catch (error) {
       console.error("Error fetching user:", error);
+      // Fallback: try using Drizzle ORM directly
+      try {
+        const [user] = await db.select().from(users).where(eq(users.username, username));
+        if (user) {
+          return {
+            ...user,
+            isAdmin: Boolean(user.isAdmin),
+          };
+        }
+      } catch (fallbackError) {
+        console.error("Fallback also failed:", fallbackError);
+      }
       return undefined;
     }
   }
@@ -271,7 +283,7 @@ export class DatabaseStorage implements IStorage {
     const testimonialData = {
       id,
       name: insertTestimonial.name,
-      company: insertTestimonial.company,
+      role: insertTestimonial.role,
       content: insertTestimonial.content,
       rating: insertTestimonial.rating,
       isVisible: insertTestimonial.isVisible ?? true,
