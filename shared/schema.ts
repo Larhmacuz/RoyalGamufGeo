@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -7,6 +7,7 @@ export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
+  isAdmin: boolean("is_admin").default(false).notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -16,6 +17,49 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export const properties = pgTable("properties", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  type: text("type").notNull(),
+  category: text("category").notNull(),
+  location: text("location").notNull(),
+  size: text("size").notNull(),
+  price: text("price").notNull(),
+  description: text("description").notNull(),
+  features: text("features").array().notNull(),
+  images: text("images").array().notNull(),
+  status: text("status").default("available").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPropertySchema = createInsertSchema(properties).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertProperty = z.infer<typeof insertPropertySchema>;
+export type Property = typeof properties.$inferSelect;
+
+export const testimonials = pgTable("testimonials", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  content: text("content").notNull(),
+  rating: integer("rating").notNull(),
+  isVisible: boolean("is_visible").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTestimonialSchema = createInsertSchema(testimonials).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
+export type Testimonial = typeof testimonials.$inferSelect;
 
 export const contactInquiries = pgTable("contact_inquiries", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

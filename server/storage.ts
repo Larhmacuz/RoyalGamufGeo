@@ -3,10 +3,12 @@ import {
   type PropertyInquiry, type InsertPropertyInquiry, 
   type ContactInquiry, type InsertContactInquiry,
   type QuoteRequest, type InsertQuoteRequest,
-  users, propertyInquiries, contactInquiries, quoteRequests 
+  type Property, type InsertProperty,
+  type Testimonial, type InsertTestimonial,
+  users, propertyInquiries, contactInquiries, quoteRequests, properties, testimonials 
 } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import crypto from "crypto";
 
 export interface IStorage {
@@ -16,7 +18,23 @@ export interface IStorage {
   createPropertyInquiry(inquiry: InsertPropertyInquiry): Promise<PropertyInquiry>;
   getPropertyInquiries(): Promise<PropertyInquiry[]>;
   createContactInquiry(inquiry: InsertContactInquiry): Promise<ContactInquiry>;
+  getContactInquiries(): Promise<ContactInquiry[]>;
   createQuoteRequest(request: InsertQuoteRequest): Promise<QuoteRequest>;
+  getQuoteRequests(): Promise<QuoteRequest[]>;
+  
+  // Properties
+  getProperties(): Promise<Property[]>;
+  getProperty(id: string): Promise<Property | undefined>;
+  createProperty(property: InsertProperty): Promise<Property>;
+  updateProperty(id: string, property: Partial<InsertProperty>): Promise<Property | undefined>;
+  deleteProperty(id: string): Promise<boolean>;
+  
+  // Testimonials
+  getTestimonials(): Promise<Testimonial[]>;
+  getVisibleTestimonials(): Promise<Testimonial[]>;
+  createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial>;
+  updateTestimonial(id: string, testimonial: Partial<InsertTestimonial>): Promise<Testimonial | undefined>;
+  deleteTestimonial(id: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -140,6 +158,87 @@ export class DatabaseStorage implements IStorage {
     console.log("   Timeline:", request.timeline);
     console.log("   Budget:", request.budget || "Not specified");
     return request;
+  }
+
+  async getContactInquiries(): Promise<ContactInquiry[]> {
+    return db.select().from(contactInquiries).orderBy(desc(contactInquiries.createdAt));
+  }
+
+  async getQuoteRequests(): Promise<QuoteRequest[]> {
+    return db.select().from(quoteRequests).orderBy(desc(quoteRequests.createdAt));
+  }
+
+  // Properties CRUD
+  async getProperties(): Promise<Property[]> {
+    return db.select().from(properties).orderBy(desc(properties.createdAt));
+  }
+
+  async getProperty(id: string): Promise<Property | undefined> {
+    const [property] = await db.select().from(properties).where(eq(properties.id, id));
+    return property;
+  }
+
+  async createProperty(insertProperty: InsertProperty): Promise<Property> {
+    const [property] = await db.insert(properties).values(insertProperty).returning();
+    console.log("🏠 New Property Created:", property.title);
+    return property;
+  }
+
+  async updateProperty(id: string, updateData: Partial<InsertProperty>): Promise<Property | undefined> {
+    const [property] = await db
+      .update(properties)
+      .set({ ...updateData, updatedAt: new Date() })
+      .where(eq(properties.id, id))
+      .returning();
+    if (property) {
+      console.log("🏠 Property Updated:", property.title);
+    }
+    return property;
+  }
+
+  async deleteProperty(id: string): Promise<boolean> {
+    const result = await db.delete(properties).where(eq(properties.id, id)).returning();
+    if (result.length > 0) {
+      console.log("🏠 Property Deleted:", result[0].title);
+      return true;
+    }
+    return false;
+  }
+
+  // Testimonials CRUD
+  async getTestimonials(): Promise<Testimonial[]> {
+    return db.select().from(testimonials).orderBy(desc(testimonials.createdAt));
+  }
+
+  async getVisibleTestimonials(): Promise<Testimonial[]> {
+    return db.select().from(testimonials).where(eq(testimonials.isVisible, true)).orderBy(desc(testimonials.createdAt));
+  }
+
+  async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
+    const [testimonial] = await db.insert(testimonials).values(insertTestimonial).returning();
+    console.log("⭐ New Testimonial Created:", testimonial.name);
+    return testimonial;
+  }
+
+  async updateTestimonial(id: string, updateData: Partial<InsertTestimonial>): Promise<Testimonial | undefined> {
+    const [testimonial] = await db
+      .update(testimonials)
+      .set(updateData)
+      .where(eq(testimonials.id, id))
+      .returning();
+    if (testimonial) {
+      console.log("⭐ Testimonial Updated:", testimonial.name);
+    }
+    return testimonial;
+  }
+
+  async deleteTestimonial(id: string): Promise<boolean> {
+    const result = await db.delete(testimonials).where(eq(testimonials.id, id)).returning();
+    if (result.length > 0) {
+      console.log("⭐ Testimonial Deleted:", result[0].name);
+      return true;
+    }
+    return false;
   }
 }
 
