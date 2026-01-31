@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyInquiryModal from "@/components/PropertyInquiryModal";
@@ -6,7 +7,8 @@ import PropertyGalleryModal from "@/components/PropertyGalleryModal";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Maximize, Phone, Mail, ImageIcon } from "lucide-react";
+import { MapPin, Maximize, Phone, Mail, ImageIcon, Loader2 } from "lucide-react";
+import type { Property } from "@shared/schema";
 
 import commercialLand1 from "@assets/stock_images/empty_land_plot_comm_1470f94f.jpg";
 import commercialLand2 from "@assets/stock_images/empty_land_plot_comm_14dc261f.jpg";
@@ -17,7 +19,18 @@ import officeBuilding2 from "@assets/stock_images/modern_office_buildi_86ce5b4f.
 import warehouse1 from "@assets/stock_images/industrial_warehouse_523b4cd7.jpg";
 import warehouse2 from "@assets/stock_images/industrial_warehouse_daaf486a.jpg";
 
-const properties = [
+const stockImages: Record<string, string> = {
+  commercialLand1,
+  commercialLand2,
+  residentialLand1,
+  residentialLand2,
+  officeBuilding1,
+  officeBuilding2,
+  warehouse1,
+  warehouse2,
+};
+
+const fallbackProperties = [
   {
     id: 1,
     title: "Commercial Land - Lagos",
@@ -28,7 +41,8 @@ const properties = [
     price: "₦150,000,000",
     description: "Prime commercial land in strategic Lekki location, suitable for commercial development or investment.",
     features: ["Fenced", "Accessible Road", "C of O Available"],
-    images: [commercialLand1, commercialLand2]
+    images: [commercialLand1, commercialLand2],
+    status: "available" as const,
   },
   {
     id: 2,
@@ -40,7 +54,8 @@ const properties = [
     price: "₦85,000,000",
     description: "Well-positioned residential plot in serene Gwarinpa estate with all necessary documentation.",
     features: ["Tarred Road", "Electricity", "R of O"],
-    images: [residentialLand1, residentialLand2]
+    images: [residentialLand1, residentialLand2],
+    status: "available" as const,
   },
   {
     id: 3,
@@ -52,7 +67,8 @@ const properties = [
     price: "₦12,000,000/year",
     description: "Modern office complex with multiple units, ideal for corporate headquarters or business operations.",
     features: ["24/7 Power", "Parking", "Security"],
-    images: [officeBuilding1, officeBuilding2]
+    images: [officeBuilding1, officeBuilding2],
+    status: "available" as const,
   },
   {
     id: 4,
@@ -64,7 +80,8 @@ const properties = [
     price: "₦200,000,000",
     description: "Large industrial land suitable for manufacturing, warehousing, or logistics operations.",
     features: ["Near Expressway", "Flat Terrain", "Gazette"],
-    images: [warehouse1, commercialLand1]
+    images: [warehouse1, commercialLand1],
+    status: "available" as const,
   },
   {
     id: 5,
@@ -76,7 +93,8 @@ const properties = [
     price: "₦25,000,000",
     description: "Affordable residential plot in well-developed Bodija area with growing property value.",
     features: ["Good Drainage", "Estate Security", "C of O"],
-    images: [residentialLand2, residentialLand1]
+    images: [residentialLand2, residentialLand1],
+    status: "available" as const,
   },
   {
     id: 6,
@@ -88,22 +106,73 @@ const properties = [
     price: "₦35,000,000/year",
     description: "Spacious warehouse facility in prime Apapa industrial zone, close to port facilities.",
     features: ["Loading Bay", "High Ceiling", "Security"],
-    images: [warehouse2, warehouse1]
+    images: [warehouse2, warehouse1],
+    status: "available" as const,
   }
 ];
 
+interface DisplayProperty {
+  id: number;
+  title: string;
+  type: string;
+  category: string;
+  location: string;
+  size: string;
+  price: string;
+  description: string;
+  features: string[];
+  images: string[];
+  status: "available" | "sold" | "under_offer";
+}
+
+function getPropertyImages(property: Property): string[] {
+  if (property.images && property.images.length > 0) {
+    return property.images.map(img => {
+      if (img.startsWith('http') || img.startsWith('/')) {
+        return img;
+      }
+      return stockImages[img] || img;
+    });
+  }
+  return [commercialLand1];
+}
+
+function transformProperty(property: Property): DisplayProperty {
+  return {
+    id: property.id,
+    title: property.title,
+    type: property.type,
+    category: property.category,
+    location: property.location,
+    size: property.size,
+    price: property.price,
+    description: property.description,
+    features: property.features || [],
+    images: getPropertyImages(property),
+    status: property.status,
+  };
+}
+
 export default function Properties() {
-  const [selectedProperty, setSelectedProperty] = useState<typeof properties[0] | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<DisplayProperty | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
-  const [galleryProperty, setGalleryProperty] = useState<typeof properties[0] | null>(null);
+  const [galleryProperty, setGalleryProperty] = useState<DisplayProperty | null>(null);
 
-  const handleInquire = (property: typeof properties[0]) => {
+  const { data: dbProperties, isLoading, isError } = useQuery<Property[]>({
+    queryKey: ["/api/properties"],
+  });
+
+  const properties: DisplayProperty[] = dbProperties && dbProperties.length > 0
+    ? dbProperties.filter(p => p.status === "available").map(transformProperty)
+    : fallbackProperties;
+
+  const handleInquire = (property: DisplayProperty) => {
     setSelectedProperty(property);
     setModalOpen(true);
   };
 
-  const handleOpenGallery = (property: typeof properties[0]) => {
+  const handleOpenGallery = (property: DisplayProperty) => {
     setGalleryProperty(property);
     setGalleryOpen(true);
   };
@@ -148,77 +217,88 @@ export default function Properties() {
 
           <section>
             <h2 className="text-3xl font-bold mb-6">Available Properties</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {properties.map((property) => (
-                <Card key={property.id} className="hover-elevate overflow-hidden" data-testid={`card-property-${property.id}`}>
-                  <div 
-                    className="relative aspect-video bg-muted cursor-pointer group"
-                    onClick={() => handleOpenGallery(property)}
-                    data-testid={`img-property-${property.id}`}
-                  >
-                    {property.images && property.images.length > 0 ? (
-                      <img 
-                        src={property.images[0]} 
-                        alt={property.title}
-                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <ImageIcon className="w-12 h-12 text-muted-foreground" />
-                      </div>
-                    )}
-                    {property.images && property.images.length > 1 && (
-                      <div className="absolute bottom-2 right-2 bg-background/80 backdrop-blur px-2 py-1 rounded text-xs font-medium">
-                        +{property.images.length - 1} more
-                      </div>
-                    )}
-                  </div>
-                  <CardHeader className="pb-2">
-                    <div className="flex justify-between items-start gap-2 flex-wrap">
-                      <Badge variant={property.type === "For Sale" ? "default" : "secondary"}>
-                        {property.type}
-                      </Badge>
-                      <Badge variant="outline">{property.category}</Badge>
+            {isLoading ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {properties.map((property) => (
+                  <Card key={property.id} className="hover-elevate overflow-hidden" data-testid={`card-property-${property.id}`}>
+                    <div 
+                      className="relative aspect-video bg-muted cursor-pointer group"
+                      onClick={() => handleOpenGallery(property)}
+                      data-testid={`img-property-${property.id}`}
+                    >
+                      {property.images && property.images.length > 0 ? (
+                        <img 
+                          src={property.images[0]} 
+                          alt={property.title}
+                          className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <ImageIcon className="w-12 h-12 text-muted-foreground" />
+                        </div>
+                      )}
+                      {property.images && property.images.length > 1 && (
+                        <div className="absolute bottom-2 right-2 bg-background/80 backdrop-blur px-2 py-1 rounded text-xs font-medium">
+                          +{property.images.length - 1} more
+                        </div>
+                      )}
                     </div>
-                    <CardTitle className="text-lg mt-2" data-testid="text-property-title">{property.title}</CardTitle>
-                    <CardDescription className="flex items-center gap-1">
-                      <MapPin className="w-4 h-4" />
-                      {property.location}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground mb-4" data-testid="text-property-description">
-                      {property.description}
-                    </p>
-                    <div className="flex items-center gap-4 mb-4 text-sm">
-                      <span className="flex items-center gap-1">
-                        <Maximize className="w-4 h-4 text-muted-foreground" />
-                        {property.size}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {property.features.map((feature, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {feature}
+                    <CardHeader className="pb-2">
+                      <div className="flex justify-between items-start gap-2 flex-wrap">
+                        <Badge variant={property.type === "For Sale" ? "default" : "secondary"}>
+                          {property.type}
                         </Badge>
-                      ))}
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-lg text-primary" data-testid="text-property-price">
-                        {property.price}
-                      </span>
-                      <Button 
-                        size="sm" 
-                        onClick={() => handleInquire(property)}
-                        data-testid={`button-inquire-${property.id}`}
-                      >
-                        Inquire
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                        <Badge variant="outline">{property.category}</Badge>
+                      </div>
+                      <CardTitle className="text-lg mt-2" data-testid="text-property-title">{property.title}</CardTitle>
+                      <CardDescription className="flex items-center gap-1">
+                        <MapPin className="w-4 h-4" />
+                        {property.location}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-4" data-testid="text-property-description">
+                        {property.description}
+                      </p>
+                      <div className="flex items-center gap-4 mb-4 text-sm">
+                        <span className="flex items-center gap-1">
+                          <Maximize className="w-4 h-4 text-muted-foreground" />
+                          {property.size}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {property.features.map((feature, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {feature}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-lg text-primary" data-testid="text-property-price">
+                          {property.price}
+                        </span>
+                        <Button 
+                          size="sm" 
+                          onClick={() => handleInquire(property)}
+                          data-testid={`button-inquire-${property.id}`}
+                        >
+                          Inquire
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+            {!isLoading && properties.length === 0 && (
+              <div className="text-center py-12 text-muted-foreground">
+                No properties available at this time. Please check back later.
+              </div>
+            )}
           </section>
 
           <section className="bg-card rounded-lg p-8 border">
@@ -247,7 +327,18 @@ export default function Properties() {
       <Footer />
 
       <PropertyInquiryModal
-        property={selectedProperty}
+        property={selectedProperty ? {
+          id: selectedProperty.id,
+          title: selectedProperty.title,
+          type: selectedProperty.type,
+          category: selectedProperty.category,
+          location: selectedProperty.location,
+          size: selectedProperty.size,
+          price: selectedProperty.price,
+          description: selectedProperty.description,
+          features: selectedProperty.features,
+          images: selectedProperty.images,
+        } : null}
         open={modalOpen}
         onOpenChange={setModalOpen}
       />

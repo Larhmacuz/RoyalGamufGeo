@@ -37,7 +37,7 @@ async function initializeAdmin() {
       console.log("✅ Admin user created: username=admin, password=royalgamuf2024");
     }
   } catch (error) {
-    console.log("Admin user initialization skipped - may already exist or table not ready");
+    console.error("Admin initialization error:", error);
   }
 }
 

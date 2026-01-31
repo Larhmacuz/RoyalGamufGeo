@@ -8,6 +8,7 @@ import {
   users, propertyInquiries, contactInquiries, quoteRequests, properties, testimonials 
 } from "@shared/schema";
 import { db } from "./db";
+import { sql } from "drizzle-orm";
 import { eq, desc } from "drizzle-orm";
 import crypto from "crypto";
 
@@ -45,8 +46,22 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user;
+    try {
+      const result = await db.execute(sql`SELECT id, username, password, is_admin::text as is_admin_text FROM users WHERE username = ${username}`);
+      if (result && result.rows && result.rows.length > 0) {
+        const row = result.rows[0] as any;
+        return {
+          id: row.id,
+          username: row.username,
+          password: row.password,
+          isAdmin: row.is_admin_text === 'true' || row.is_admin_text === 't',
+        };
+      }
+      return undefined;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return undefined;
+    }
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
@@ -55,12 +70,19 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createAdminUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values({
+    const id = crypto.randomUUID();
+    await db.insert(users).values({
+      id,
       ...insertUser,
       isAdmin: true,
-    }).returning();
-    console.log("👤 Admin user created:", user.username);
-    return user;
+    });
+    console.log("👤 Admin user created:", insertUser.username);
+    return {
+      id,
+      username: insertUser.username,
+      password: insertUser.password,
+      isAdmin: true,
+    };
   }
 
   async createPropertyInquiry(insertInquiry: InsertPropertyInquiry): Promise<PropertyInquiry> {
