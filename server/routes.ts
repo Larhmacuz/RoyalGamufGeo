@@ -25,7 +25,25 @@ const requireAdmin = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+async function initializeAdmin() {
+  try {
+    const existingAdmin = await storage.getUserByUsername("admin");
+    if (!existingAdmin) {
+      const hashedPassword = await bcrypt.hash("royalgamuf2024", 10);
+      await storage.createAdminUser({
+        username: "admin",
+        password: hashedPassword,
+      });
+      console.log("✅ Admin user created: username=admin, password=royalgamuf2024");
+    }
+  } catch (error) {
+    console.log("Admin user initialization skipped - may already exist or table not ready");
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  await initializeAdmin();
+  
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "royal-gamuf-secret-key",

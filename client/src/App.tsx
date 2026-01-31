@@ -14,6 +14,11 @@ import Contact from "@/pages/Contact";
 import FAQ from "@/pages/FAQ";
 import NotFound from "@/pages/not-found";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import AdminLogin from "@/pages/admin/Login";
+import AdminDashboard from "@/pages/admin/Dashboard";
+import AdminProperties from "@/pages/admin/Properties";
+import AdminInquiries from "@/pages/admin/Inquiries";
+import AdminTestimonials from "@/pages/admin/Testimonials";
 
 function Router() {
   return (
@@ -27,6 +32,11 @@ function Router() {
       <Route path="/request-quote" component={RequestQuote} />
       <Route path="/contact" component={Contact} />
       <Route path="/faq" component={FAQ} />
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/properties" component={AdminProperties} />
+      <Route path="/admin/inquiries" component={AdminInquiries} />
+      <Route path="/admin/testimonials" component={AdminTestimonials} />
       <Route component={NotFound} />
     </Switch>
   );

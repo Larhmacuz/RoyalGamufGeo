@@ -15,6 +15,7 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  createAdminUser(user: InsertUser): Promise<User>;
   createPropertyInquiry(inquiry: InsertPropertyInquiry): Promise<PropertyInquiry>;
   getPropertyInquiries(): Promise<PropertyInquiry[]>;
   createContactInquiry(inquiry: InsertContactInquiry): Promise<ContactInquiry>;
@@ -50,6 +51,15 @@ export class DatabaseStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+
+  async createAdminUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values({
+      ...insertUser,
+      isAdmin: true,
+    }).returning();
+    console.log("👤 Admin user created:", user.username);
     return user;
   }
 
