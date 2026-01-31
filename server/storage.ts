@@ -256,11 +256,13 @@ export class DatabaseStorage implements IStorage {
 
   // Testimonials CRUD
   async getTestimonials(): Promise<Testimonial[]> {
-    return db.select().from(testimonials).orderBy(desc(testimonials.createdAt));
+    const result = await db.select().from(testimonials).orderBy(desc(testimonials.createdAt));
+    return result || [];
   }
 
   async getVisibleTestimonials(): Promise<Testimonial[]> {
-    return db.select().from(testimonials).where(eq(testimonials.isVisible, true)).orderBy(desc(testimonials.createdAt));
+    const result = await db.select().from(testimonials).where(eq(testimonials.isVisible, true)).orderBy(desc(testimonials.createdAt));
+    return result || [];
   }
 
   async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {

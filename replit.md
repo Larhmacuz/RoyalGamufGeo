@@ -67,6 +67,15 @@ Preferred communication style: Simple, everyday language.
 - **Client Testimonials**: Homepage section with client reviews and star ratings
 - **Service Areas**: Homepage section showing coverage across South-West Nigeria
 - **FAQ Page**: Frequently asked questions about services with accordion-style answers
+- **Admin Panel**: Protected admin area for managing properties, testimonials, and viewing inquiries
+
+### Admin Panel
+- **Login URL**: /admin/login
+- **Dashboard**: /admin - Shows statistics (properties, inquiries, testimonials counts)
+- **Properties Management**: /admin/properties - Full CRUD for property listings
+- **Inquiries**: /admin/inquiries - View contact, quote, and property inquiries
+- **Testimonials**: /admin/testimonials - Manage client testimonials with visibility toggle
+- **Credentials**: username: admin, password: royalgamuf2024
 
 ### Company Information
 - **Email**: royalgamufnig.ltd@gmail.com
@@ -80,6 +89,12 @@ Preferred communication style: Simple, everyday language.
 ### Database
 - **PostgreSQL**: Primary database (configured via DATABASE_URL environment variable)
 - **Neon Serverless**: PostgreSQL driver (@neondatabase/serverless) for serverless-compatible connections
+
+### Important: Neon HTTP Driver Workarounds
+The Neon HTTP driver has some known issues that require workarounds:
+1. **Boolean Parsing Bug**: Boolean columns return incorrect values. Workaround: Cast to text with `is_admin::text` and manually parse in code.
+2. **`.returning()` Returns Null**: The `.returning()` method returns null. Workaround: Construct return objects manually rather than relying on `.returning()`.
+3. **Apply Defaults Before Insert**: Always apply default values (features: [], images: [], status: "available", isVisible: true) to the insert object before calling db.insert(), not just in the return object.
 
 ### UI Framework Dependencies
 - **Radix UI**: Full suite of accessible UI primitives (dialogs, dropdowns, forms, etc.)
