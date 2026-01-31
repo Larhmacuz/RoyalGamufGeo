@@ -126,22 +126,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/admin/stats", requireAdmin, async (req, res) => {
     try {
       const [properties, contactInquiries, quoteRequests, propertyInquiries, testimonials] = await Promise.all([
-        storage.getProperties(),
-        storage.getContactInquiries(),
-        storage.getQuoteRequests(),
-        storage.getPropertyInquiries(),
-        storage.getTestimonials(),
+        storage.getProperties().catch((e) => { console.error("getProperties error:", e); return []; }),
+        storage.getContactInquiries().catch((e) => { console.error("getContactInquiries error:", e); return []; }),
+        storage.getQuoteRequests().catch((e) => { console.error("getQuoteRequests error:", e); return []; }),
+        storage.getPropertyInquiries().catch((e) => { console.error("getPropertyInquiries error:", e); return []; }),
+        storage.getTestimonials().catch((e) => { console.error("getTestimonials error:", e); return []; }),
       ]);
       
       res.json({
-        totalProperties: properties.length,
-        availableProperties: properties.filter(p => p.status === "available").length,
-        soldProperties: properties.filter(p => p.status === "sold").length,
-        totalInquiries: contactInquiries.length + quoteRequests.length + propertyInquiries.length,
-        contactInquiries: contactInquiries.length,
-        quoteRequests: quoteRequests.length,
-        propertyInquiries: propertyInquiries.length,
-        totalTestimonials: testimonials.length,
+        totalProperties: (properties || []).length,
+        availableProperties: (properties || []).filter(p => p.status === "available").length,
+        soldProperties: (properties || []).filter(p => p.status === "sold").length,
+        totalInquiries: (contactInquiries || []).length + (quoteRequests || []).length + (propertyInquiries || []).length,
+        contactInquiries: (contactInquiries || []).length,
+        quoteRequests: (quoteRequests || []).length,
+        propertyInquiries: (propertyInquiries || []).length,
+        totalTestimonials: (testimonials || []).length,
       });
     } catch (error) {
       console.error("Error fetching stats:", error);

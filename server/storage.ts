@@ -34,6 +34,7 @@ export interface IStorage {
   // Testimonials
   getTestimonials(): Promise<Testimonial[]>;
   getVisibleTestimonials(): Promise<Testimonial[]>;
+  getTestimonial(id: string): Promise<Testimonial | undefined>;
   createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial>;
   updateTestimonial(id: string, testimonial: Partial<InsertTestimonial>): Promise<Testimonial | undefined>;
   deleteTestimonial(id: string): Promise<boolean>;
@@ -211,30 +212,46 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createProperty(insertProperty: InsertProperty): Promise<Property> {
-    const [property] = await db.insert(properties).values(insertProperty).returning();
-    console.log("🏠 New Property Created:", property.title);
-    return property;
+    const id = crypto.randomUUID();
+    const now = new Date();
+    const propertyData = {
+      id,
+      title: insertProperty.title,
+      type: insertProperty.type,
+      category: insertProperty.category,
+      location: insertProperty.location,
+      size: insertProperty.size,
+      price: insertProperty.price,
+      description: insertProperty.description,
+      features: insertProperty.features || [],
+      images: insertProperty.images || [],
+      status: insertProperty.status || "available",
+      createdAt: now,
+      updatedAt: now,
+    };
+    await db.insert(properties).values(propertyData);
+    console.log("🏠 New Property Created:", insertProperty.title);
+    return propertyData;
   }
 
   async updateProperty(id: string, updateData: Partial<InsertProperty>): Promise<Property | undefined> {
-    const [property] = await db
+    await db
       .update(properties)
       .set({ ...updateData, updatedAt: new Date() })
-      .where(eq(properties.id, id))
-      .returning();
-    if (property) {
-      console.log("🏠 Property Updated:", property.title);
+      .where(eq(properties.id, id));
+    const updated = await this.getProperty(id);
+    if (updated) {
+      console.log("🏠 Property Updated:", updated.title);
     }
-    return property;
+    return updated;
   }
 
   async deleteProperty(id: string): Promise<boolean> {
-    const result = await db.delete(properties).where(eq(properties.id, id)).returning();
-    if (result.length > 0) {
-      console.log("🏠 Property Deleted:", result[0].title);
-      return true;
-    }
-    return false;
+    const property = await this.getProperty(id);
+    if (!property) return false;
+    await db.delete(properties).where(eq(properties.id, id));
+    console.log("🏠 Property Deleted:", property.title);
+    return true;
   }
 
   // Testimonials CRUD
@@ -247,30 +264,49 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
-    const [testimonial] = await db.insert(testimonials).values(insertTestimonial).returning();
-    console.log("⭐ New Testimonial Created:", testimonial.name);
-    return testimonial;
+    const id = crypto.randomUUID();
+    const now = new Date();
+    const testimonialData = {
+      id,
+      name: insertTestimonial.name,
+      company: insertTestimonial.company,
+      content: insertTestimonial.content,
+      rating: insertTestimonial.rating,
+      isVisible: insertTestimonial.isVisible ?? true,
+      createdAt: now,
+    };
+    await db.insert(testimonials).values(testimonialData);
+    console.log("⭐ New Testimonial Created:", insertTestimonial.name);
+    return testimonialData;
+  }
+
+  async getTestimonial(id: string): Promise<Testimonial | undefined> {
+    try {
+      const result = await db.select().from(testimonials).where(eq(testimonials.id, id));
+      return result && result.length > 0 ? result[0] : undefined;
+    } catch {
+      return undefined;
+    }
   }
 
   async updateTestimonial(id: string, updateData: Partial<InsertTestimonial>): Promise<Testimonial | undefined> {
-    const [testimonial] = await db
+    await db
       .update(testimonials)
       .set(updateData)
-      .where(eq(testimonials.id, id))
-      .returning();
-    if (testimonial) {
-      console.log("⭐ Testimonial Updated:", testimonial.name);
+      .where(eq(testimonials.id, id));
+    const updated = await this.getTestimonial(id);
+    if (updated) {
+      console.log("⭐ Testimonial Updated:", updated.name);
     }
-    return testimonial;
+    return updated;
   }
 
   async deleteTestimonial(id: string): Promise<boolean> {
-    const result = await db.delete(testimonials).where(eq(testimonials.id, id)).returning();
-    if (result.length > 0) {
-      console.log("⭐ Testimonial Deleted:", result[0].name);
-      return true;
-    }
-    return false;
+    const testimonial = await this.getTestimonial(id);
+    if (!testimonial) return false;
+    await db.delete(testimonials).where(eq(testimonials.id, id));
+    console.log("⭐ Testimonial Deleted:", testimonial.name);
+    return true;
   }
 }
 
