@@ -20,10 +20,7 @@ export default function Navbar() {
     <>
       <div className="bg-blue-600 text-white py-2 text-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center items-center">
-          <a href="tel:+2347048266273" className="flex items-center gap-2 hover:text-blue-100" data-testid="link-topbar-phone">
-            <Phone className="w-4 h-4" />
-            <span>+234 704 826 6273</span>
-          </a>
+          <Phone className="h-4 w-4 mr-1" />
         </div>
       </div>
       
