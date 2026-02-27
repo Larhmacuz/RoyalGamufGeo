@@ -30,7 +30,8 @@ export interface IStorage {
   createProperty(property: InsertProperty): Promise<Property>;
   updateProperty(id: string, property: Partial<InsertProperty>): Promise<Property | undefined>;
   deleteProperty(id: string): Promise<boolean>;
-  
+  getFeaturedProperties(): Promise<Property[]>;
+
   // Testimonials
   getTestimonials(): Promise<Testimonial[]>;
   getVisibleTestimonials(): Promise<Testimonial[]>;
@@ -238,6 +239,7 @@ export class DatabaseStorage implements IStorage {
       features: insertProperty.features || [],
       images: insertProperty.images || [],
       status: insertProperty.status || "available",
+      isFeatured: insertProperty.isFeatured ?? false,
       createdAt: now,
       updatedAt: now,
     };
@@ -264,6 +266,10 @@ export class DatabaseStorage implements IStorage {
     await db.delete(properties).where(eq(properties.id, id));
     console.log("🏠 Property Deleted:", property.title);
     return true;
+  }
+  async getFeaturedProperties(): Promise<Property[]> {
+    const result = await db.select().from(properties).where(eq(properties.isFeatured, true));
+    return result || [];
   }
 
   // Testimonials CRUD

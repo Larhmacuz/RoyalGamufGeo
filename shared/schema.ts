@@ -30,6 +30,7 @@ export const properties = pgTable("properties", {
   features: text("features").array().notNull(),
   images: text("images").array().notNull(),
   status: text("status").default("available").notNull(),
+  isFeatured: boolean("is_featured").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

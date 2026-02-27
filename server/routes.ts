@@ -111,6 +111,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/properties/featured", async (req, res) => {
+    try {
+      const featuredProperties = await storage.getFeaturedProperties();
+      res.json(featuredProperties);
+    } catch (error) {
+      console.error("Error fetching featured properties:", error);
+      res.status(500).json({ error: "Failed to fetch featured properties" });
+    }
+  });
+
   // Public Testimonials Route
   app.get("/api/testimonials", async (req, res) => {
     try {
