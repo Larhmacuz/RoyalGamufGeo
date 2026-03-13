@@ -1,5 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
+import StartProject from "@/components/StartProject";
 import HomeServices from "@/components/HomeServices";
 import HomeProperties from "@/components/HomeProperties";
 import HomeAbout from "@/components/HomeAbout";
@@ -14,6 +16,8 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
       <Hero />
+      <HowItWorks />
+      <StartProject />
       <HomeServices />
       <HomeProperties />
       <HomeAbout />

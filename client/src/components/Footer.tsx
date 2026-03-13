@@ -42,6 +42,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li><Link href="/about" data-testid="link-footer-about"><span className="text-muted-foreground hover:text-foreground cursor-pointer">About Us</span></Link></li>
               <li><Link href="/services" data-testid="link-footer-services"><span className="text-muted-foreground hover:text-foreground cursor-pointer">All Services</span></Link></li>
+              <li><Link href="/estimate" data-testid="link-footer-estimate"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Cost Estimator</span></Link></li>
               <li><Link href="/careers" data-testid="link-footer-careers"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Careers</span></Link></li>
               <li><Link href="/faq" data-testid="link-footer-faq"><span className="text-muted-foreground hover:text-foreground cursor-pointer">FAQ</span></Link></li>
               <li><Link href="/request-quote" data-testid="link-footer-quote"><span className="text-muted-foreground hover:text-foreground cursor-pointer">Request Quote</span></Link></li>

@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -114,6 +114,45 @@ export default function QuoteRequestForm() {
   const onSubmit = (data: InsertQuoteRequest) => {
     submitMutation.mutate(data);
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("source") !== "estimator") {
+      return;
+    }
+
+    const bedrooms = searchParams.get("bedrooms");
+    const houseType = searchParams.get("houseType");
+    const finish = searchParams.get("finish");
+    const location = searchParams.get("location");
+    const estimateLow = searchParams.get("estimateLow");
+    const estimateHigh = searchParams.get("estimateHigh");
+    const formattedLow = estimateLow ? new Intl.NumberFormat("en-NG").format(Number(estimateLow)) : null;
+    const formattedHigh = estimateHigh ? new Intl.NumberFormat("en-NG").format(Number(estimateHigh)) : null;
+
+    const projectDetails = [
+      "Estimator-generated project brief:",
+      bedrooms && houseType ? `${bedrooms}-bedroom ${houseType}` : null,
+      finish ? `Finish level: ${finish}` : null,
+      location ? `Preferred location: ${location}` : null,
+      formattedLow && formattedHigh ? `Estimated budget range: NGN ${formattedLow} - NGN ${formattedHigh}` : null,
+      "Please provide a detailed professional estimate, scope breakdown, timeline, and advisory notes for this project.",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    form.reset({
+      ...form.getValues(),
+      serviceType: "Building Design",
+      projectLocation: location ? `${location.charAt(0).toUpperCase()}${location.slice(1)}, Nigeria` : "",
+      projectScope: projectDetails,
+      budget: formattedLow && formattedHigh ? `NGN ${formattedLow} - NGN ${formattedHigh}` : "",
+    });
+  }, [form]);
 
   if (isSubmitted) {
     return (

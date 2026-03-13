@@ -10,6 +10,7 @@ import {
 } from "@shared/schema";
 import session from "express-session";
 import bcrypt from "bcryptjs";
+import { estimateBuildingCost, estimatorInputSchema } from "./estimator";
 
 declare module "express-session" {
   interface SessionData {
@@ -96,6 +97,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ authenticated: true });
     } else {
       res.json({ authenticated: false });
+    }
+  });
+
+  app.post("/api/estimate", (req, res) => {
+    try {
+      const validatedInput = estimatorInputSchema.parse(req.body);
+      const estimate = estimateBuildingCost(validatedInput);
+      res.json(estimate);
+    } catch (error) {
+      console.error("Estimator error:", error);
+      res.status(400).json({ error: "Invalid estimator input" });
     }
   });
 

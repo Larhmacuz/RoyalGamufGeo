@@ -12,6 +12,9 @@ import Careers from "@/pages/Careers";
 import RequestQuote from "@/pages/RequestQuote";
 import Contact from "@/pages/Contact";
 import FAQ from "@/pages/FAQ";
+import Estimate from "@/pages/Estimate";
+import LandCheck from "@/pages/LandCheck";
+import Tools from "@/pages/Tools";
 import NotFound from "@/pages/not-found";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import AdminLogin from "@/pages/admin/Login";
@@ -32,6 +35,9 @@ function Router() {
       <Route path="/request-quote" component={RequestQuote} />
       <Route path="/contact" component={Contact} />
       <Route path="/faq" component={FAQ} />
+      <Route path="/tools" component={Tools} />
+      <Route path="/estimate" component={Estimate} />
+      <Route path="/land-check" component={LandCheck} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/properties" component={AdminProperties} />
